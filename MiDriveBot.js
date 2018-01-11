@@ -4,7 +4,6 @@ const fs = require('fs');
 var http = require('https');
 var AWS = require('aws-sdk');
 const readline = require('readline');
-var inside = require('point-in-polygon');
 
  
 var webhook = "https://discordapp.com/api/webhooks/392727461953011713/9iD33ib0JjD0RU-PWCoL9KN_VNJ3jrIiDfvAybQTvOcyU8qhU_rPrzgR2TgvczHOXp3z";
@@ -41,20 +40,7 @@ function PostResults(index)
 {
 	if(ClosureObjToPost.length > index)
 	{
-		//let LAM = "";
 		let obj = ClosureObjToPost[index];
-		/*if(inside([ obj.Latitude[0], obj.Longitude[0] ], NW))
-			LAM = "NW";
-		else if(inside([ obj.Latitude[0], obj.Longitude[0] ], NE))
-			LAM = "NE";
-		else if(inside([ obj.Latitude[0], obj.Longitude[0] ], SW))
-			LAM = "SW";
-		else if(inside([ obj.Latitude[0], obj.Longitude[0] ], SE))
-			LAM = "SE";
-		else if(inside([ obj.Latitude[0], obj.Longitude[0] ], C))
-			LAM = "Central";
-		else
-			LAM = "Undetermined";*/
 
 		webhook = testServerwebhook;
 		
