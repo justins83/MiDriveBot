@@ -1,19 +1,11 @@
 
 const request = require('request');
 const fs = require('fs');
-var xml2js = require('xml2js');
-var parser = new xml2js.Parser();
 var http = require('https');
-var parseString = require('xml2js').parseString;
 var AWS = require('aws-sdk');
 const readline = require('readline');
 var inside = require('point-in-polygon');
 
-var NW = [ [ 41.69621150, -84.80620470 ], [ 41.74707970, -82.71565040 ], [40.57368660, -82.68183770 ], [ 40.54522630, -84.80279780 ] ];
-var NE = [[41.62058260,-82.71194720],[41.98212010,-80.51942980],[40.56682920,-80.51892620],[40.57368660,-82.68183770]];
-var SW = [[40.54522630,-84.80279780],[40.56826300,-83.41627120],[38.42400810,-83.37387080],[39.09809450,-84.88311770]];
-var SE = [[39.70218290,-83.39936390],[39.71772530,-80.75030830],[38.36184910,-82.40226750],[38.60882250,-83.37799080]];
-var C = [[40.56826300,-83.41626050],[40.56768290,-80.58881650],[39.71669450,-80.59157260],[39.70218290,-83.39935320]];
  
 var webhook = "https://discordapp.com/api/webhooks/392727461953011713/9iD33ib0JjD0RU-PWCoL9KN_VNJ3jrIiDfvAybQTvOcyU8qhU_rPrzgR2TgvczHOXp3z";
 const MIHwebhook = "https://discordapp.com/api/webhooks/400685621519056896/iw75dNfL5wPI1rfaO7S8r0b2NVxQyoq3Xnmoh_XxsBVKe49rffh7dn69wovPuBYD_MfX";
@@ -38,7 +30,7 @@ function scrapeMiDrive(err, data)
 			postedIDs.push(obj.id);
 			ClosureObjToPost.push(obj);
 		}
-		console.log(obj);
+		//console.log(obj);
 	});
 
 	if(ClosureObjToPost.length >0)
@@ -88,19 +80,7 @@ function PostResults(index)
 			embedDescription += "\n**Event Message**: " + msgEventMessage[1].trim();
 		if(msgReported != null)
 			embedDescription += "\n**Reported**: " + msgReported[1].trim();
-		
-		
-		/*if(obj.message.indexOf("Event Message") == -1){
-			msg = obj.message.match(/<strong>Location: <\/strong>(.*)<br><strong>Lanes Affected:\s?<\/strong>(.*)<br><strong>Event Type: <\/strong>.*<strong>County:\s?<\/strong>(.*)<br><strong>Reported:\s?<\/strong>(.*)/);
-			embedDescrpition = "**Location**: " + msg[1].trim() + "\n**Lanes Affected**: " + msg[2].trim() + "\n**Event Type**: " + msg[3].trim() +
-							"\n**County**: " + msg[4].trim() + "\n**Reported**: " + msg[5].trim();
-		}
-		else{
-			msg = obj.message.match(/<strong>Location: <\/strong>(.*)<br><strong>Lanes Affected:\s?<\/strong>(.*)<br><strong>Event Type: <\/strong>(.*)<br><strong>County:\s?<\/strong>(.*)<br><strong>Event Message:\s?<\/strong>(.*)<br><strong>Reported:\s?<\/strong>(.*)/);
-			embedDescrpition = "**Location**: " + msg[1].trim() + "\n**Lanes Affected**: " + msg[1].trim() + "\n**Event Type**: " + msg[2].trim() +
-							"\n**County**: " + msg[3].trim() + "\n**Event Message**:" + msg[4].trim() + "\n**Reported**: " + msg[5].trim();
-		}*/
-		
+
 		request({
 			method:'POST',
 			url: webhook,
@@ -116,14 +96,13 @@ function PostResults(index)
 	}
 	else
 	{
-		//WriteToFile();
+		WriteToFile();
 		ClosureObjToPost = [];
 	}
 }
 
 
 function xmlToJson(url, callback) {
-  //var req = http.get(url, function(res) {
     var json = '';
 	
 	request.get(url, (error, response, body) => {
@@ -131,39 +110,18 @@ function xmlToJson(url, callback) {
 	   callback(null, json);
 	  //console.log(json);
 	});
-/*
-    res.on('data', function(chunk) {
-      json += chunk;
-    });
-
-    res.on('error', function(e) {
-      callback(e, null);
-    }); 
-
-    res.on('timeout', function(e) {
-      callback(e, null);
-    }); 
-
-    res.on('end', function() {
-		console.log("read from URL\n");
-		console.log(json);
-      //parser.parseString(json, function(err, result) {
-      //  callback(null, result);
-      //});
-    });
-  });*/
 }
 
 
 function WriteToFile()
 {
 	//fs.unlinkSync('posted.txt');
-	var file = fs.createWriteStream('parsed.txt');
+	/*var file = fs.createWriteStream('parsed.txt');
 	file.on('error', function(err) { console.log(err);});
 	postedIDs.forEach(function(v) {if(v != ""){ file.write(v + '\n'); }});
-	file.end();
+	file.end();*/
 	
-	/*let params = {Bucket: myBucket, Key: myKey, Body: postedIDs.join('\n')};
+	let params = {Bucket: myBucket, Key: myKey, Body: postedIDs.join('\n')};
      s3.putObject(params, function(err, data) {
          if (err) {
              console.log(err)
@@ -171,21 +129,21 @@ function WriteToFile()
              console.log("Successfully uploaded data to myBucket/myKey");
          }
 
-      });*/
+      });
 }
 
 function ReadFromFile()
 {
-	if(fs.existsSync('parsed.txt'))
+	/*if(fs.existsSync('parsed.txt'))
 	{
 		var array = fs.readFileSync('parsed.txt').toString().split("\n");
 		for(i in array) {
 			postedIDs.push(array[i]);
 		}
 		xmlToJson(url, scrapeMiDrive);
-	}
+	}*/
 	
-	/*console.log("Reading S3");
+	console.log("Reading S3");
 	let params = {Bucket: myBucket, Key: myKey};
 	const rl = readline.createInterface({
 		input: s3.getObject(params).createReadStream()
@@ -193,32 +151,13 @@ function ReadFromFile()
 
 	rl.on('line', function(line) {
 		postedIDs.push(line);
-		console.log(line);
 	})
 	.on('close', function() {
 		xmlToJson(url, scrapeMiDrive);
 		setInterval(function(){
 			console.log("Interval!");
 			xmlToJson(url, scrapeMiDrive);}, 600000);
-	});*/
+	});
 }
-
-/*function checkcheck (x, y, cornersX, cornersY) {
-
-	var i, j=cornersX.length-1 ;
-	var  oddNodes=false;
-
-	var polyX = cornersX;
-	var polyY = cornersY;
-
-	for (i=0; i<cornersX.length; i++) {
-		if ((polyY[i]< y && polyY[j]>=y ||  polyY[j]< y && polyY[i]>=y) &&  (polyX[i]<=x || polyX[j]<=x)) {
-		  oddNodes^=(polyX[i]+(y-polyY[i])/(polyY[j]-polyY[i])*(polyX[j]-polyX[i])<x); 
-		}
-		j=i; 
-	}
-
-	  return oddNodes;
-}*/
 
 ReadFromFile();
