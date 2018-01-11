@@ -4,7 +4,7 @@
   "description": "",
   "main": "MiDriveBot.js",
   "scripts": {
-    "test": "node midrivebot.js"
+    "start": "node midrivebot.js"
   },
   "author": "JustinS83",
   "license": "ISC",
