@@ -57,7 +57,7 @@ function PostResults(index)
 		if(msgLocation != null)
 			embedDescription += "**Location**: " + msgLocation[1].trim();
 		if(msgLanes != null)
-			embedDescription += "\n**Lanes Affacted**: " + msgLanes[1].trim();
+			embedDescription += "\n**Lanes Affected**: " + msgLanes[1].trim();
 		if(msgEventType != null)
 			embedDescription += "\n**Event Type**: " + msgEventType[1].trim();
 		if(msgCounty != null)
