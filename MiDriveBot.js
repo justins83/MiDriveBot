@@ -1,9 +1,9 @@
-
 const request = require('request');
 const fs = require('fs');
 var http = require('https');
 var AWS = require('aws-sdk');
 const readline = require('readline');
+const proj4 = require('proj4');
 
  
 var webhook = "https://discordapp.com/api/webhooks/392727461953011713/9iD33ib0JjD0RU-PWCoL9KN_VNJ3jrIiDfvAybQTvOcyU8qhU_rPrzgR2TgvczHOXp3z";
@@ -18,6 +18,7 @@ var ClosureObjToPost = [];
 var s3 = new AWS.S3();
 var myBucket = 'midrivebot';
 var myKey = 'parsed.txt';
+var reaction = ":no_entry:";
 
 function scrapeMiDrive(err, data)
 {
@@ -42,7 +43,9 @@ function PostResults(index)
 	{
 		let obj = ClosureObjToPost[index];
 
-		webhook = MIHwebhook;
+		webhook = testServerwebhook;
+		
+		reaction = ":no_entry:";
 		
 		var msg;
 		var embedDescription = "";
@@ -56,8 +59,11 @@ function PostResults(index)
 		
 		if(msgLocation != null)
 			embedDescription += "**Location**: " + msgLocation[1].trim();
-		if(msgLanes != null)
+		if(msgLanes != null){
 			embedDescription += "\n**Lanes Affected**: " + msgLanes[1].trim();
+			if((msgLanes[1].indexOf("Left") > -1 || msgLanes[1].indexOf("Right") > -1) && msgLanes[1].indexOf("Ramp") == -1)
+				reaction = ":x:";
+		}
 		if(msgEventType != null)
 			embedDescription += "\n**Event Type**: " + msgEventType[1].trim();
 		if(msgCounty != null)
@@ -66,13 +72,17 @@ function PostResults(index)
 			embedDescription += "\n**Event Message**: " + msgEventMessage[1].trim();
 		if(msgReported != null)
 			embedDescription += "\n**Reported**: " + msgReported[1].trim();
+		
+		var coordinatesmin = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
+		var coordinatesmax = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
 
 		request({
 			method:'POST',
 			url: webhook,
 			json: {
 						avatar_url:"https://i.imgur.com/z2P2zWm.png", username:"MiDrive",
-					content: ":no_entry:" + obj.title + "" + "\nLink: [WME](https://www.waze.com/editor/?env=usa&lon=" + obj.longitude + "&lat=" + obj.latitude + "&zoom=5)",
+					content: reaction + obj.title + "" + "\nLink: [WME](https://www.waze.com/editor/?env=usa&lon=" + obj.longitude + "&lat=" + obj.latitude + "&zoom=5)"
+					+ " | [MiDrive](https://mdotnetpublic.state.mi.us/drive/Default.aspx?xmin=" + parseFloat(coordinatesmin[0] - 600) + "&xmax=" + parseFloat(coordinatesmax[0] + 600) + "&ymin=" + parseFloat(coordinatesmin[1] - 450) + "&ymax=" + parseFloat(coordinatesmax[1] + 450) + "&lc=true&lcf=false&cam=true&tb=false&bc=false&bh1=false&bh2=false&sensor=false&inc=true&mp=false&sign=false&mb=false&cps=false&aps=false&bing=false&source=social&rsp=false&rest=false&park=false&plow=false)",
 						embeds:[{
 							"description": embedDescription
 						}]
@@ -80,6 +90,7 @@ function PostResults(index)
 		});
 		setTimeout(function(){PostResults(index+1);},2500);
 	}
+
 	else
 	{
 		WriteToFile();
