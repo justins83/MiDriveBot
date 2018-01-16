@@ -61,7 +61,7 @@ function PostResults(index)
 			embedDescription += "**Location**: " + msgLocation[1].trim();
 		if(msgLanes != null){
 			embedDescription += "\n**Lanes Affected**: " + msgLanes[1].trim();
-			if((msgLanes[1].indexOf("Left") > -1 || msgLanes[1].indexOf("Right") > -1) && msgLanes[1].indexOf("Ramp") == -1)
+			if((msgLanes[1].indexOf("Left") > -1 || msgLanes[1].indexOf("Right") > -1 || msgLanes[1].indexOf("Center") > -1) && msgLanes[1].indexOf("Ramp") == -1)
 				reaction = ":x:";
 		}
 		if(msgEventType != null)
