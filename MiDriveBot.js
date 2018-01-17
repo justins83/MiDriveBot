@@ -83,7 +83,7 @@ function PostResults(index)
 			json: {
 						avatar_url:"https://i.imgur.com/z2P2zWm.png", username:"MiDrive",
 					content: reaction + obj.title + "" + "\nLink: [WME](https://www.waze.com/editor/?env=usa&lon=" + obj.longitude + "&lat=" + obj.latitude + "&zoom=5)"
-					+ " | [MiDrive](https://mdotnetpublic.state.mi.us/drive/Default.aspx?xmin=" + parseFloat(coordinatesmin[0] - 600) + "&xmax=" + parseFloat(coordinatesmax[0] + 600) + "&ymin=" + parseFloat(coordinatesmin[1] - 450) + "&ymax=" + parseFloat(coordinatesmax[1] + 450) + "&lc=true&lcf=false&cam=true&tb=false&bc=false&bh1=false&bh2=false&sensor=false&inc=true&mp=false&sign=false&mb=false&cps=false&aps=false&bing=false&source=social&rsp=false&rest=false&park=false&plow=false)",
+					+ " | [MiDrive](https://mdotnetpublic.state.mi.us/drive/Default.aspx?xmin=" + parseFloat(coordinatesmin[0] - 600) + "&xmax=" + parseFloat(coordinatesmax[0] + 600) + "&ymin=" + parseFloat(coordinatesmin[1] - 450) + "&ymax=" + parseFloat(coordinatesmax[1] + 450) + "&lc=true&lcf=false&cam=true&tb=false&bc=false&bh1=false&bh2=false&sensor=true&inc=true&mp=false&sign=false&mb=false&cps=false&aps=false&bing=false&source=social&rsp=false&rest=false&park=false&plow=false)",
 						embeds:[{
 							"description": embedDescription
 						}]
