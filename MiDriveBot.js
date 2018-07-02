@@ -5,10 +5,10 @@ var AWS = require('aws-sdk');
 const readline = require('readline');
 const proj4 = require('proj4');
 
- 
-var webhook = "https://discordapp.com/api/webhooks/392727461953011713/9iD33ib0JjD0RU-PWCoL9KN_VNJ3jrIiDfvAybQTvOcyU8qhU_rPrzgR2TgvczHOXp3z";
-const MIHwebhook = "https://discordapp.com/api/webhooks/400685621519056896/iw75dNfL5wPI1rfaO7S8r0b2NVxQyoq3Xnmoh_XxsBVKe49rffh7dn69wovPuBYD_MfX";
-const testServerwebhook = "https://discordapp.com/api/webhooks/391299150211317761/tntWFj2dMjJi7JGJrn_bjMm_rg6REL8DugFpxQ5MqrByMkMjLy3M-_EJ3CVVK9_lM_Rt";
+var webhookPrefix = "https://discordapp.com/api/webhooks/";
+var webhook = "392727461953011713/9iD33ib0JjD0RU-PWCoL9KN_VNJ3jrIiDfvAybQTvOcyU8qhU_rPrzgR2TgvczHOXp3z";
+const MIHwebhook = "400685621519056896/iw75dNfL5wPI1rfaO7S8r0b2NVxQyoq3Xnmoh_XxsBVKe49rffh7dn69wovPuBYD_MfX";
+const testServerwebhook = "391299150211317761/tntWFj2dMjJi7JGJrn_bjMm_rg6REL8DugFpxQ5MqrByMkMjLy3M-_EJ3CVVK9_lM_Rt";
 const url = "https://mdotnetpublic.state.mi.us/drive/DataServices.asmx/fetchIncidents";
 var postedIDs = [];
 var x = 0;
@@ -79,7 +79,7 @@ function PostResults(index)
 
 		request({
 			method:'POST',
-			url: webhook,
+			url: webhookPrefix + webhook,
 			json: {
 						avatar_url:"https://i.imgur.com/z2P2zWm.png", username:"MiDrive",
 					content: reaction + obj.title + "" + "\nLink: [WME](https://www.waze.com/editor/?env=usa&lon=" + obj.longitude + "&lat=" + obj.latitude + "&zoom=5)"
