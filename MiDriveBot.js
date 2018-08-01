@@ -25,7 +25,7 @@ function scrapeMiDrive(err, data)
 	if (err)
 		return console.err(err);
 
-	data.d.forEach(function(obj){
+	data.forEach(function(obj){
 		if(postedIDs.indexOf(obj.id) < 0){// && obj.message.match(/<strong>Event Type: <\/strong>(.*?)<br>/)[0] != "Other"){
 			postedIDs.push(obj.id);
 			ClosureObjToPost.push(obj);
