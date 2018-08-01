@@ -50,12 +50,12 @@ function PostResults(index)
 		var msg;
 		var embedDescription = "";
 		var msgLocation, msgLanes, msgEventType, msgCounty, msgReported, msgEventMessage;
-		msgLocation = obj.message.match(/<strong>Location: <\/strong>(.*?)</div>/);
-		msgLanes = obj.message.match(/<strong>Lanes Affected:\s?<\/strong>(.*?)</div>/);
-		msgEventType = obj.message.match(/<strong>Event Type: <\/strong>(.*?)</div>/);
-		msgEventMessage = obj.message.match(/<strong>Event Message:\s?<\/strong>(.*?)</div>/);
+		msgLocation = obj.message.match(/<strong>Location: <\/strong>(.*?)<\/div>/);
+		msgLanes = obj.message.match(/<strong>Lanes Affected:\s?<\/strong>(.*?)<\/div>/);
+		msgEventType = obj.message.match(/<strong>Event Type: <\/strong>(.*?)<\/div>/);
+		msgEventMessage = obj.message.match(/<strong>Event Message:\s?<\/strong>(.*?)<\/div>/);
 		msgReported = obj.message.match(/<strong>Reported:\s?<\/strong>(.*)/);
-		msgCounty = obj.message.match(/<strong>County:\s?<\/strong>(.*?)</div>/);
+		msgCounty = obj.message.match(/<strong>County:\s?<\/strong>(.*?)<\/div>/);
 		
 		if(msgLocation != null)
 			embedDescription += "**Location**: " + msgLocation[1].trim();
