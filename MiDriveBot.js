@@ -50,12 +50,12 @@ function PostResults(index)
 		var msg;
 		var embedDescription = "";
 		var msgLocation, msgLanes, msgEventType, msgCounty, msgReported, msgEventMessage;
-		msgLocation = obj.message.match(/<strong>Location: <\/strong>(.*?)<br>/);
-		msgLanes = obj.message.match(/<strong>Lanes Affected:\s?<\/strong>(.*?)<br>/);
-		msgEventType = obj.message.match(/<strong>Event Type: <\/strong>(.*?)<br>/);
-		msgEventMessage = obj.message.match(/<strong>Event Message:\s?<\/strong>(.*?)<br>/);
+		msgLocation = obj.message.match(/<strong>Location: <\/strong>(.*?)</div>/);
+		msgLanes = obj.message.match(/<strong>Lanes Affected:\s?<\/strong>(.*?)</div>/);
+		msgEventType = obj.message.match(/<strong>Event Type: <\/strong>(.*?)</div>/);
+		msgEventMessage = obj.message.match(/<strong>Event Message:\s?<\/strong>(.*?)</div>/);
 		msgReported = obj.message.match(/<strong>Reported:\s?<\/strong>(.*)/);
-		msgCounty = obj.message.match(/<strong>County:\s?<\/strong>(.*?)<br>/);
+		msgCounty = obj.message.match(/<strong>County:\s?<\/strong>(.*?)</div>/);
 		
 		if(msgLocation != null)
 			embedDescription += "**Location**: " + msgLocation[1].trim();
@@ -74,20 +74,20 @@ function PostResults(index)
 		if(msgReported != null)
 			embedDescription += "\n**Reported**: " + msgReported[1].trim();
 		
-		var coordinatesmin = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
-		var coordinatesmax = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
+		//var coordinatesmin = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
+		//var coordinatesmax = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
 
 		request({
 			method:'POST',
 			url: webhookPrefix + webhook,
 			json: {
-						avatar_url:"https://i.imgur.com/z2P2zWm.png", username:"MiDrive",
-					content: reaction + obj.title + "" + "\nLink: [WME](https://www.waze.com/editor/?env=usa&lon=" + obj.longitude + "&lat=" + obj.latitude + "&zoom=5)"
-					+ " | [MiDrive](https://mdotnetpublic.state.mi.us/drive/Default.aspx?xmin=" + parseFloat(coordinatesmin[0] - 600) + "&xmax=" + parseFloat(coordinatesmax[0] + 600) + "&ymin=" + parseFloat(coordinatesmin[1] - 450) + "&ymax=" + parseFloat(coordinatesmax[1] + 450) + "&lc=true&lcf=false&cam=true&tb=false&bc=false&bh1=false&bh2=false&sensor=true&inc=true&mp=false&sign=false&mb=false&cps=false&aps=false&bing=false&source=social&rsp=false&rest=false&park=false&plow=false)",
-						embeds:[{
-							"description": embedDescription
-						}]
-					}
+					avatar_url:"https://i.imgur.com/z2P2zWm.png", username:"MiDrive",
+				content: reaction + obj.title + "" + "\nLink: [WME](https://www.waze.com/editor/?env=usa&lon=" + obj.longitude + "&lat=" + obj.latitude + "&zoom=5)"
+				+ " | [MiDrive](https://mdotjboss.state.mi.us/MiDrive/map?constZone=true&incidents=true&lat=" + obj.latitude + "&lon=" + obj.longitude + "&zoom=17)",
+					embeds:[{
+						"description": embedDescription
+					}]
+				}
 		});
 		setTimeout(function(){PostResults(index+1);},2500);
 	}
