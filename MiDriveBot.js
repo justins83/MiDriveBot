@@ -49,13 +49,14 @@ function PostResults(index)
 		
 		var msg;
 		var embedDescription = "";
-		var msgLocation, msgLanes, msgEventType, msgCounty, msgReported, msgEventMessage;
+		var msgLocation, msgLanes, msgEventType, msgCounty, msgReported, msgEventMessage, msgCleared;
 		msgLocation = obj.message.match(/<strong>Location: <\/strong>(.*?)<\/div>/);
 		msgLanes = obj.message.match(/<strong>Lanes Affected:\s?<\/strong>(.*?)<\/div>/);
 		msgEventType = obj.message.match(/<strong>Event Type: <\/strong>(.*?)<\/div>/);
 		msgEventMessage = obj.message.match(/<strong>Event Message:\s?<\/strong>(.*?)<\/div>/);
-		msgReported = obj.message.match(/<strong>Reported:\s?<\/strong>(.*)/);
+		msgReported = obj.message.match(/Reported:<\/strong>\s?(\d+\:\d+\s[AP]M)/);
 		msgCounty = obj.message.match(/<strong>County:\s?<\/strong>(.*?)<\/div>/);
+		msgCleared = obj.message.match(/Cleared:<\/strong>\s?(\d+\:\d+\s[AP]M)/);
 		
 		if(msgLocation != null)
 			embedDescription += "**Location**: " + msgLocation[1].trim();
@@ -73,6 +74,8 @@ function PostResults(index)
 			embedDescription += "\n**Event Message**: " + msgEventMessage[1].trim();
 		if(msgReported != null)
 			embedDescription += "\n**Reported**: " + msgReported[1].trim();
+		if(msgCleared != null)
+			embedDescription += "\n**Cleared**: " + msgCleared[1].trim();
 		
 		//var coordinatesmin = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
 		//var coordinatesmax = proj4('EPSG:4326', 'GOOGLE',[parseFloat(obj.longitude) ,parseFloat(obj.latitude)]);
